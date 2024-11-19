@@ -1,0 +1,21 @@
+// 针对el-tooltip的弹出框样式，因为弹出框的渲染位置是在body之下的，所以只能全局设置
+.el-popper.is-customized {
+  /* Set padding to ensure the height is 32px */
+  padding: 6px 12px;
+  background-color: rgb(0 23 54 / 0.8);
+  color: #fff;
+
+  .toolbar-layers,
+  .toolbar-measures {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    span {
+      padding: 5px 8px;
+      border-radius: 3px;
+    }
+    span:hover {
+      background-color: #19a2e8;
+    }
+  }
+}
