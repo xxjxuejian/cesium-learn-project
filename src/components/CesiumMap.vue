@@ -13,7 +13,7 @@
 <script setup>
 import initViewer from '@/cesium/initViewer'
 import switchMap from '@/cesium/switchBaseMap'
-import startMeasureDistance from '@/cesium/measures'
+import { startMeasureDistance } from '@/cesium/measures'
 import { useMapStore } from '@/stores/map'
 import ToolBar from './ToolBar.vue'
 import { onMounted } from 'vue'
