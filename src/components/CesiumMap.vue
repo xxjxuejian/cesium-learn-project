@@ -5,134 +5,81 @@
     @zoomOut="zoomOut"
     @resetZoom="resetZoom"
     @switchBaseMap="switchBaseMap"
-    @emitMeasure="emitMeasure"
+    @emitMeasure="Measures"
   >
   </ToolBar>
 </template>
 
 <script setup>
+import initViewer from '@/cesium/initViewer'
+import switchMap from '@/cesium/switchBaseMap'
+import startMeasureDistance from '@/cesium/measures'
+import { useMapStore } from '@/stores/map'
 import ToolBar from './ToolBar.vue'
 import { onMounted } from 'vue'
 import * as Cesium from 'cesium'
 import { Ion } from 'cesium'
 import '../Widgets/widgets.css'
+
+import { IONKEY } from '@/config/constants'
 window.CESIUM_BASE_URL = '/'
 
 // 设置cesium token
-Ion.defaultAccessToken =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2MmJlY2YxZS0xZWQ1LTRiNGItYjBlNy1iNmMwYTVjMzNiYzYiLCJpZCI6MjQ3NTIyLCJpYXQiOjE3MzIwMDE2MjB9.r2CklVFhmGaQxjLV1Spscr1WO_BBaOuRAnyeybN4QiE'
+Ion.defaultAccessToken = IONKEY
 
-// 天地图token
-const webKey = 'da499f7d0eeb7c2e4bf72b84b13a5918'
+const mapStore = useMapStore()
+let viewer
+
 onMounted(() => {
-  const viewer = new Cesium.Viewer('cesiumContainer', {
-    // viewer = new Cesium.Viewer('cesiumContainer', {
-    // 是否显示信息窗口
-    infoBox: false,
-    // 是否显示查询按钮
-    geocoder: false,
-    // 不显示home按钮
-    homeButton: false,
-    // 控制查看器的显示模式
-    sceneModePicker: false,
-    // 是否显示图层选择
-    baseLayerPicker: false,
-    // 是否显示帮助按钮
-    navigationHelpButton: false,
-    // 是否播放动画
-    animation: false,
-    // 是否显示时间轴
-    timeline: false,
-    // 是否显示全屏按钮
-    fullscreenButton: false,
-    // 关闭点击广告牌的绿色框
-    selectionIndicator: false,
-    shouldAnimate: true,
-    // terrain: Cesium.Terrain.fromWorldTerrain()
-  })
+  // 如果该组件被反复销毁和挂载（例如通过路由切换），可能会导致 viewer 被多次初始化。
+  // 检查 mapStore.viewer 是否已经存在，如果存在，避免重复初始化。
+  if (!mapStore.viewer) {
+    viewer = initViewer('cesiumContainer')
+    mapStore.setViewer(viewer)
+  } else {
+    viewer = mapStore.viewer
+  }
 
-  viewer.imageryLayers.addImageryProvider(
-    new Cesium.WebMapTileServiceImageryProvider({
-      url:
-        'https://t0.tianditu.gov.cn/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default.jpg&tk=' +
-        webKey,
-      layer: 'img',
-      style: 'default',
-      tileMatrixSetID: 'w',
-      format: 'tiles',
-      maximumLevel: 18,
-      subdomains: ['0', '1', '2', '3', '4', '5', '6', '7'],
-    }),
-  )
-  // 天地图矢量注记，注记就是地图上的各点的文本说明信息
-  viewer.imageryLayers.addImageryProvider(
-    new Cesium.WebMapTileServiceImageryProvider({
-      url:
-        'https://t0.tianditu.gov.cn/cva_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cva&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default.jpg&tk=' +
-        webKey,
-      layer: 'cia',
-      style: 'default',
-      tileMatrixSetID: 'w',
-      format: 'tiles',
-      maximumLevel: 18,
-      subdomains: ['0', '1', '2', '3', '4', '5', '6', '7'],
-    }),
-  )
-
-  // 隐藏logo
-  viewer.cesiumWidget.creditContainer.style.display = 'none'
-  viewer.scene.globe.enableLighting = true
-  // 取消天空盒显示
-  viewer.scene.skyBox.show = false
-  // 设置抗锯齿
-  viewer.scene.fxaa = false
-  viewer.scene.postProcessStages.fxaa.enabled = false
-  // 提高采样率以提高细节
-  viewer.scene.globe.maximumScreenSpaceError = 5 / 3 // 默认是2
-  viewer.scene.globe.tileCacheSize = 1000 // 增加缓存大小
-  viewer.scene.fog.enabled = false // 禁用雾化效果，增强图像清晰度
-
-  // 改变当前地图的组织结构
-  let layer = viewer.scene.imageryLayers.get(0)
-  layer.minificationFilter = Cesium.TextureMinificationFilter.NEAREST
-  layer.magnificationFilter = Cesium.TextureMagnificationFilter.NEAREST
-
-  var position = Cesium.Cartesian3.fromDegrees(120.3, 30.43, 4000)
-
-  viewer.camera.setView({
-    // 指定相机位置
-    destination: position,
-    // 指定相机视角
-    // orientation: {
-    //   // 指定相机的朝向,偏航角
-    //   heading: Cesium.Math.toRadians(20),
-    //   // 指定相机的俯仰角,0度是竖直向上,-90度是向下
-    //   pitch: Cesium.Math.toRadians(-20),
-    //   // 指定相机的滚转角,翻滚角
-    //   roll: 0,
-    // },
-  })
+  console.log(mapStore.viewer)
 })
 
 const zoomIn = () => {
+  if (viewer) {
+    viewer.camera.zoomIn(500) // 参数是放大的距离，可以根据需求调整
+  }
   // 放大
   console.log('zoomIn')
 }
 const zoomOut = () => {
+  if (viewer) {
+    viewer.camera.zoomOut(500) // 参数是缩小的距离
+  }
   // 缩小
   console.log('zoomOut')
 }
 const resetZoom = () => {
+  if (viewer) {
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(120.3, 30.43, 4000), // 设置经纬度和高度
+    })
+  }
   // 重置
   console.log('resetZoom')
-}
-const emitMeasure = (type) => {
-  // 测距
-  console.log('emitMeasure', type)
 }
 const switchBaseMap = (type) => {
   // 切换底图
   console.log('switchBaseMap', type)
+  if (viewer) {
+    switchMap(viewer, type)
+  }
+}
+
+const Measures = (type) => {
+  // 测距
+  console.log('emitMeasure', type)
+  if (viewer) {
+    startMeasureDistance(viewer)
+  }
 }
 </script>
 
