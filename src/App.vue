@@ -1,12 +1,14 @@
 <script setup>
-import CesiumMap from '@/components/CesiumMap.vue'
+// import CesiumMap from '@/components/CesiumMap.vue'
+import basic04 from '@/views/basic-04.vue'
 </script>
 
 <template>
   <div class="App">
     <div class="header">标题头</div>
     <div class="map-container">
-      <CesiumMap></CesiumMap>
+      <!-- <CesiumMap></CesiumMap> -->
+      <basic04></basic04>
     </div>
   </div>
 </template>

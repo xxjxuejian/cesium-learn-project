@@ -9,7 +9,7 @@ export default function initViewer(cesiumContainerId) {
     geocoder: false,
     // 不显示home按钮
     homeButton: false,
-    // 控制查看器的显示模式
+    // 控制查看器的显示模式.2d,2.5d,3d切换
     sceneModePicker: false,
     // 是否显示图层选择
     baseLayerPicker: false,

@@ -13,7 +13,8 @@
 <script setup>
 import initViewer from '@/cesium/initViewer'
 import switchMap from '@/cesium/switchBaseMap'
-import { startMeasureDistance } from '@/cesium/measures'
+// import { startMeasureDistance } from '@/cesium/measures'
+// import { measureLine } from '@/cesium/measureLine'
 import { useMapStore } from '@/stores/map'
 import ToolBar from './ToolBar.vue'
 import { onMounted } from 'vue'
@@ -77,9 +78,9 @@ const switchBaseMap = (type) => {
 const Measures = (type) => {
   // 测距
   console.log('emitMeasure', type)
-  if (viewer) {
-    startMeasureDistance(viewer)
-  }
+  // if (viewer) {
+  //   measureLine(viewer)
+  // }
 }
 </script>
 

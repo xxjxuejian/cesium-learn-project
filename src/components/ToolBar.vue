@@ -31,14 +31,14 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref } from 'vue'
+import { defineEmits } from 'vue'
 import zoomIn from '@/assets/images/zoomIn.png'
 import zoomOut from '@/assets/images/zoomOut.png'
 import reset from '@/assets/images/reset.png'
 import layer from '@/assets/images/layer.png'
 import measure from '@/assets/images/measure.png'
-import buildingSwitch from '@/assets/images/buildingSwitch.png'
-import tunnelSwitch from '@/assets/images/tunnelSwitch.png'
+// import buildingSwitch from '@/assets/images/buildingSwitch.png'
+// import tunnelSwitch from '@/assets/images/tunnelSwitch.png'
 
 const emits = defineEmits(['zoomIn', 'zoomOut', 'resetZoom', 'switchBaseMap', 'emitMeasure'])
 
