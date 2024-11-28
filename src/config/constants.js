@@ -1,3 +1,6 @@
 export const WEBKEY = 'da499f7d0eeb7c2e4bf72b84b13a5918'
 export const IONKEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2MmJlY2YxZS0xZWQ1LTRiNGItYjBlNy1iNmMwYTVjMzNiYzYiLCJpZCI6MjQ3NTIyLCJpYXQiOjE3MzIwMDE2MjB9.r2CklVFhmGaQxjLV1Spscr1WO_BBaOuRAnyeybN4QiE'
+
+export const bearerToken =
+  'Bearer eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6ImNlMjM5OWFmLTBiMGMtNDFiNC1iZTZmLWM0Yjc4MzUzYjM1ZiJ9.lgkEPJioSxfC1pOVPiRcymVZ1VrLTZuTAPwKGbdioWap18ozVTd0IykH2W65uigXqfSIOn-dcrA3gDXq72LJ8Q'

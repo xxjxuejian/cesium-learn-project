@@ -29,6 +29,7 @@ window.CESIUM_BASE_URL = '/'
 Ion.defaultAccessToken = IONKEY
 
 const mapStore = useMapStore()
+
 let viewer
 
 onMounted(() => {
